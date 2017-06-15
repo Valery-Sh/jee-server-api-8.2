@@ -1,0 +1,45 @@
+package ${classpackage};
+
+import java.util.ServiceLoader;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.util.component.LifeCycle;
+
+import org.netbeans.plugin.support.embedded.jetty.NbDeployHandler;
+
+/**
+ *
+ * @author ${user}
+ */
+public class JettyEmbeddedServer {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws Exception {
+        Server server = new Server(${port});
+        NbDeployHandler.getInstance().listen(server);
+
+        //
+        //------------------------------------------------------------
+        // Of course, you can use a line of code, as shown below:
+        //
+        //  Server server =  new Server(${port});
+        //
+        //------------------------------------------------------------
+
+        //==============================================================
+        //                    EXAMPLE 
+        //============================================================== 
+        /* 
+        WebAppContext ctx01 = new WebAppContext( ??? ,"/WebApplication1");
+        HandlerCollection hc = new HandlerCollection();
+        server.setHandler(hc);
+        
+        ContextHandlerCollection chc = new ContextHandlerCollection();
+        hc.addHandler(chc);
+        chc.addHandler(ctx01);
+        */
+        server.start();
+        server.join();
+
+    }
+}

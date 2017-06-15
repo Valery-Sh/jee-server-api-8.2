@@ -1,0 +1,52 @@
+package org.embedded.server;
+
+import java.net.URISyntaxException;
+import org.apache.catalina.startup.Tomcat;
+import javax.servlet.ServletException;
+import org.apache.catalina.LifecycleException;
+import org.netbeans.plugin.support.embedded.tomcat.CommandManager;
+
+public class TomcatEmbeddedServer {
+    private static InstanceManager getInstanceManager() {
+        ServiceLoader<InstanceManager> loader
+                = ServiceLoader.load(InstanceManager.class);        
+        
+        InstanceManager result = null;
+        
+        for (InstanceManager manager : loader) {
+            if (manager.getClass().getName().endsWith("NbDeployHandler")) {
+                result = manager;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static void main(String args[]) throws URISyntaxException, ServletException, LifecycleException {
+        final Tomcat tomcat = new Tomcat();
+        tomcat.setPort(${port});
+        //
+        // The net line may be placed anywhere in the code 
+        //
+        NbDeployHandler.getInstance().listen(tomcat);
+        // 
+        // InstanceManager manager = getInstanceManager();
+        // if ( manager != null )  getInstanceManager().newInstance(tomcat);
+        //
+
+
+        // Add the main page servlet to the context
+        // File baseDir = new File(System.getProperty("java.io.tmpdir"));
+        // tomcat.addContext("", baseDir.getAbsolutePath());
+
+        // ********************  Sample code *************************** //
+        //tomcat.addWebapp("/WebApp01", "WebApp01");
+        //tomcat.addWebapp("/WebApp02", "WebApp02.webref");
+        //tomcat.addWebapp("/WebApp03", "WebApp03.warref");
+        //tomcat.addWebapp("/MavenWebApp01", "MavenWebApp01.webref","1.0-SNAPSHOT"));    
+
+        tomcat.start();
+        tomcat.getServer().await();
+    }
+
+}
