@@ -115,7 +115,7 @@ public class FilePreferences extends AbstractPreferences {
      * {@code Properties}. If the file exists then it is loaded and it's content
      * returns as a {@code Properties } object.
      *
-     * @return an object of type {@code PropertiesEx}.
+     * @return an object of type {@code Properties}.
      */
     protected PropertiesExt properties() {
         if (properties == null) {
